@@ -209,6 +209,31 @@ void deleteByValueDuplicate(Node *&head, int val){
     }
 }
 
+Node* reverseList(Node* &head){
+    if(head->Next==NULL)return head;
+    Node* prev=NULL;
+    Node* current=head;
+    Node* next=current->Next;
+    while(1){
+        current->Next=prev;
+        prev=current;
+        current=next;
+        if(current==NULL)break;
+        next=next->Next;
+    }
+    return prev;
+}
+
+Node* reverseListRecursively(Node* &head){
+    //Base call
+    if(head->Next==NULL)return head;
+    //RECURSIVE CALL
+    Node* newNode=reverseListRecursively(head->Next);
+    head->Next->Next=head;
+    head->Next=NULL;
+    return newNode;
+}
+
 int main(){
     Node* head=NULL;
     int choice, value, pos, searchValue;
@@ -225,6 +250,8 @@ int main(){
         <<"Choice 11: Deletion by Value.(Unique List)"<<endl
         <<"Choice 12: Deletion by Value (Duplicate Enabled List)."<<endl
         <<"Choice 13: Display the Linked List "<<endl
+        <<"Choice 14: Reverse the Linked List(Non recursively) "<<endl
+        <<"Choice 15: Reverse the Linked List(Recursively) "<<endl
         <<"Choice 0: To Exit "<<endl;
     cin>>choice;
 
@@ -330,8 +357,25 @@ int main(){
                 break;
 
             case 13:
-                display(head);
+                if(head==NULL){
+                    cout<<"Linked list is Empty."<<endl;
+                }
+                else display(head);
                 cout<<endl;
+                break;
+
+            case 14:
+                if(head==NULL){
+                    cout<<"Linked list is Empty."<<endl;
+                }
+                else head=reverseList(head);
+                break;
+
+            case 15:
+                if(head==NULL){
+                    cout<<"Linked list is Empty."<<endl;
+                }
+                else head=reverseListRecursively(head);
                 break;
 
             default:
