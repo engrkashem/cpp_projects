@@ -29,6 +29,7 @@ void deleteTail(Node *&root);
 void deletePosition(Node *&root, int position);
 void deleteByValueUnique(Node *&root, int value);
 void deleteByValueDuplicate(Node *&root, int value);
+int findMid(Node* &root);
 
 int main(){
     Node *root=NULL;
@@ -47,6 +48,7 @@ int main(){
         <<"Choice 12: Deletion at a Specific Position"<<endl
         <<"Choice 13: Deletion by Value (Unique List)"<<endl
         <<"Choice 14: Deletion by Value(Duplication enabled List)"<<endl
+        <<"Choice 15: Find Mid Node if Linked List"<<endl
         <<"Choice 0: To Exit."<<endl;
         cin>>choice;
 
@@ -174,6 +176,15 @@ int main(){
                     cout<<"Enter Value to Delete: ";
                     cin>>value;
                     deleteByValueDuplicate(root, value);
+                }
+                break;
+            case 15:
+                if(root==NULL){
+                    cout<<"Linked List is Empty."<<endl;
+                }
+                else{
+                    int mid=findMid(root);
+                    cout<<"The mid Node is ["<<mid<<"]"<<endl;
                 }
                 break;
 
@@ -324,4 +335,13 @@ void deleteByValueDuplicate(Node *&root, int value){
             deletePosition(root, pos);
         }
     }
+};
+int findMid(Node* &root){
+    Node* fast=root;
+    Node* slow=root;
+    while(fast!=NULL && fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    return slow->value;
 };
