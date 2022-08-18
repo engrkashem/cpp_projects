@@ -30,10 +30,14 @@ void deletePosition(Node *&root, int position);
 void deleteByValueUnique(Node *&root, int value);
 void deleteByValueDuplicate(Node *&root, int value);
 int findMid(Node* &root);
+void createCycle(Node* &root, int position);
+bool detectCycle(Node* root);
+void removeCycle(Node* &root);
 
 int main(){
     Node *root=NULL;
     int choice, value, position, srcVal;
+    bool isCycle;
     cout<<"Choice 1: Counting the Size of Linked List"<<endl
         <<"Choice 2: Display Linked List"<<endl
         <<"Choice 3: Insertion at Head"<<endl
@@ -49,6 +53,9 @@ int main(){
         <<"Choice 13: Deletion by Value (Unique List)"<<endl
         <<"Choice 14: Deletion by Value(Duplication enabled List)"<<endl
         <<"Choice 15: Find Mid Node if Linked List"<<endl
+        <<"Choice 16: Create Cycle by Position in Linked List"<<endl
+        <<"Choice 17: Detect Cycle in Linked List"<<endl
+        <<"Choice 18: Remove Cycle in Linked List"<<endl
         <<"Choice 0: To Exit."<<endl;
         cin>>choice;
 
@@ -185,6 +192,36 @@ int main(){
                 else{
                     int mid=findMid(root);
                     cout<<"The mid Node is ["<<mid<<"]"<<endl;
+                }
+                break;
+            case 16:
+                if(root==NULL){
+                    cout<<"Linked List is Empty."<<endl;
+                }
+                else{
+                    cout<<"Enter Position to create cycle ";
+                    cin>>position;
+                    createCycle(root, position);
+                }
+                break;
+            case 17:
+                if(root==NULL){
+                    cout<<"Linked List is Empty."<<endl;
+                }
+                else{
+                    isCycle=detectCycle(root);
+                    if(isCycle)cout<<"Cycle is detected"<<endl;
+                    else cout<<"There is NO cycle in the List"<<endl;
+                }
+                break;
+            case 18:
+                if(root==NULL){
+                    cout<<"Linked List is Empty."<<endl;
+                }
+                else{
+                    isCycle=detectCycle(root);
+                    if(isCycle)removeCycle(root);
+                    else cout<<"There is NO cycle in the List"<<endl;
                 }
                 break;
 
@@ -344,4 +381,43 @@ int findMid(Node* &root){
         slow=slow->next;
     }
     return slow->value;
+};
+void createCycle(Node* &root, int position){
+    Node* temp=root;
+    Node* startNode;
+    int count=1;
+
+    while(temp->next!=NULL){
+        if(count==position)startNode=temp;
+        temp=temp->next;
+        count++;
+    }
+    temp->next=startNode;
+};
+bool detectCycle(Node* root){
+    Node* slow=root;
+    Node* fast=root;
+    while(fast!=NULL && fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast)return true;
+    }
+    return false;
+};
+void removeCycle(Node* &root){
+    Node* slow=root;
+    Node* fast=root;
+    do{
+        fast=fast->next->next;
+        slow=slow->next;
+    }while(fast!=slow);
+
+    //reinitialize fast
+    fast=root;
+    //remove cycle by making last node->next=NULL;
+    while(fast->next!=slow->next){
+        fast=fast->next;
+        slow=slow->next;
+    }
+    slow->next=NULL;
 };
