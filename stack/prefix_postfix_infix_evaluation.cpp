@@ -27,7 +27,7 @@ string infixToPrefix(string str){
             if(!st.empty())st.pop();
         }
         else{
-            while(!st.empty() && checkPrecision(st.Top()) > checkPrecision(str[i])){
+            while(!st.empty() && checkPrecision(st.Top()) >= checkPrecision(str[i])){
                 result+=st.pop();
             }
             st.push(str[i]);
@@ -57,7 +57,7 @@ string infixToPostfix(string str){
             if(!st.empty())st.pop();
         }
         else{
-            while(!st.empty() && checkPrecision(st.Top()) > checkPrecision(str[i])){
+            while(!st.empty() && checkPrecision(st.Top()) >= checkPrecision(str[i])){
                 result+=st.pop();
             }
             st.push(str[i]);
@@ -66,7 +66,6 @@ string infixToPostfix(string str){
     while(!st.empty()){
         result+=st.pop();
     }
-    //reverse(result.begin(), result.end());
     return result;
 }
 
@@ -110,7 +109,7 @@ int prefixEvaluation(string str){
 }
 
 int main(){
-    string infix="(7+(4*5))-(2+0)";//"(4*(3+5))-(2+0)";//"(7+(4*5))-(2+0)";
+    string infix="(4*(3+5))-(2+0)";//"(4*(3+5))-(2+0)";//"(7+(4*5))-(2+0)";
     //cin>>infix;
     string prefix=infixToPrefix(infix);
     string postfix=infixToPostfix(infix);
